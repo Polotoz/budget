@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#E9EFE8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121915" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Budget">
+  <title>Budget</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <style>
+    :root {
+      --bg: #E9EFE8; --surface: #F7FAF6; --ink: #1F2D27; --muted: #56665D; --line: #C9D4CB;
+      --accent: #C98E12; --ok: #2F7A4F; --warn: #9A5F0C; --bad: #B4412F;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121915; --surface: #1A241E; --ink: #E4ECE6; --muted: #97A99E; --line: #2C3A32;
+        --accent: #E3B04B; --ok: #62BD88; --warn: #E3A43B; --bad: #E57B66;
+        color-scheme: dark;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", system-ui, sans-serif;
+      line-height: 1.45;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    }
+    main { max-width: 34rem; margin: 0 auto; padding: 1rem 1.1rem 2rem; }
+    [hidden] { display: none !important; }
+
+    .hero { padding: 1.5rem 0 .5rem; }
+    .hero-label { margin: 0; color: var(--muted); }
+    .big {
+      margin: .15rem 0 0; font-size: clamp(3.2rem, 17vw, 5.6rem); font-weight: 800;
+      letter-spacing: -.035em; line-height: 1; font-variant-numeric: tabular-nums;
+    }
+    .big.ok { color: var(--ok); } .big.warn { color: var(--warn); } .big.bad { color: var(--bad); }
+
+    .stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin: 1.25rem 0;
+      background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+    }
+    .stats div { background: var(--surface); padding: .8rem .9rem; }
+    .stats dt { color: var(--muted); font-size: .85rem; }
+    .stats dd { margin: .15rem 0 0; font-weight: 700; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+
+    .gauge-row { display: flex; justify-content: space-between; font-size: .9rem; color: var(--muted); margin: .7rem 0 .3rem; }
+    .gauge-row strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+    .bar { height: .6rem; background: var(--line); border-radius: 99px; overflow: hidden; }
+    .bar span { display: block; height: 100%; width: 0; background: var(--ink); border-radius: 99px; }
+    .bar.spent span { background: var(--accent); }
+    .pace { margin: .6rem 0 0; font-size: .9rem; color: var(--muted); }
+
+    h2 { font-size: 1.25rem; margin: 2rem 0 .75rem; letter-spacing: -.01em; }
+    h2 .total { float: right; font-variant-numeric: tabular-nums; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 1rem; }
+    label { display: block; font-size: .9rem; color: var(--muted); margin: .7rem 0 .25rem; }
+    .card label:first-child { margin-top: 0; }
+    input, select {
+      width: 100%; font: inherit; color: var(--ink); background: var(--bg);
+      border: 1px solid var(--line); border-radius: 10px; padding: .7rem .8rem;
+    }
+    .amount-input { font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+
+    button { font: inherit; cursor: pointer; }
+    .btn {
+      display: block; width: 100%; margin-top: 1rem; padding: .8rem; border: 0; border-radius: 12px;
+      background: var(--ink); color: var(--bg); font-weight: 700;
+    }
+    .btn.secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .btn.danger { background: transparent; color: var(--bad); border: 1px solid var(--bad); }
+    .file-btn { position: relative; text-align: center; }
+    .file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+    .seg { display: flex; gap: .4rem; margin-top: .6rem; }
+    .seg button { flex: 1; padding: .55rem; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--ink); }
+    .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .verdict { margin: 1rem 0 0; padding: .8rem .9rem; border-radius: 12px; border-left: 5px solid var(--line); background: var(--bg); }
+    .verdict.ok { border-color: var(--ok); } .verdict.warn { border-color: var(--warn); } .verdict.bad { border-color: var(--bad); }
+
+    .notice { margin: 1rem 0; padding: .8rem .9rem; border: 1px solid var(--accent); border-radius: 12px; background: var(--surface); }
+    .notice p { margin: 0; }
+    .notice .btn { margin-top: .6rem; }
+    .muted { color: var(--muted); font-size: .9rem; }
+
+    .list { list-style: none; margin: 0; padding: 0; }
+    .list li { display: flex; align-items: center; gap: .75rem; padding: .7rem 0; border-bottom: 1px solid var(--line); }
+    .list .main { flex: 1; min-width: 0; }
+    .list .title { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .list .sub { color: var(--muted); font-size: .85rem; }
+    .list .amt { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .list .empty { color: var(--muted); display: block; }
+    .del { border: 0; background: transparent; color: var(--muted); font-size: 1.4rem; line-height: 1; padding: .3rem .55rem; border-radius: 8px; }
+
+    .tabs {
+      position: fixed; left: 0; right: 0; bottom: 0; display: flex;
+      background: var(--surface); border-top: 1px solid var(--line);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .tabs button { flex: 1; border: 0; background: transparent; color: var(--muted); padding: .95rem .25rem; font-weight: 600; }
+    .tabs button[aria-current="page"] { color: var(--ink); box-shadow: inset 0 3px 0 var(--accent); }
+
+    @media (prefers-reduced-motion: no-preference) { .bar span { transition: width .4s ease; } }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- Mois -->
+    <section id="view-mois" class="view">
+      <header class="hero">
+        <p class="hero-label" id="heroLabel">Reste par jour</p>
+        <p class="big" id="perDay">0,00 €</p>
+      </header>
+
+      <div class="notice" id="setupHint" hidden>
+        <p>Ajoute tes revenus et tes dépenses fixes pour calculer ton reste à vivre.</p>
+        <button class="btn" type="button" data-goto="fixes">Ajouter mes revenus et fixes</button>
+      </div>
+
+      <div class="notice" id="backupNotice" hidden>
+        <p>Tes données ne sont que sur cet appareil. Fais une sauvegarde pour ne rien perdre.</p>
+        <button class="btn secondary" type="button" id="backupNow">Télécharger une sauvegarde</button>
+      </div>
+
+      <dl class="stats">
+        <div><dt>Reste du mois</dt><dd id="statRest">0,00 €</dd></div>
+        <div><dt>Dépensé ce mois</dt><dd id="statSpent">0,00 €</dd></div>
+        <div><dt>Prélèvements à venir</dt><dd id="statUpcoming">0,00 €</dd></div>
+        <div><dt>Budget variable</dt><dd id="statBudget">0,00 €</dd></div>
+      </dl>
+
+      <div class="gauge-row"><span>Mois écoulé</span><strong id="elapsedPct">0 %</strong></div>
+      <div class="bar"><span id="elapsedBar"></span></div>
+      <div class="gauge-row"><span>Budget variable dépensé</span><strong id="spentPct">0 %</strong></div>
+      <div class="bar spent"><span id="spentBar"></span></div>
+      <p class="pace" id="pace"></p>
+
+      <h2>Est-ce que je peux me l’acheter ?</h2>
+      <div class="card">
+        <label for="simAmount">Prix</label>
+        <input class="amount-input" id="simAmount" inputmode="decimal" autocomplete="off" placeholder="0,00 €">
+        <div class="seg" id="simSeg" role="group" aria-label="Paiement">
+          <button type="button" data-n="1" aria-pressed="true">Comptant</button>
+          <button type="button" data-n="3" aria-pressed="false">En 3 fois</button>
+          <button type="button" data-n="4" aria-pressed="false">En 4 fois</button>
+        </div>
+        <p class="verdict" id="simResult" role="status" hidden></p>
+      </div>
+    </section>
+
+    <!-- Dépenses -->
+    <section id="view-depenses" class="view" hidden>
+      <h2>Ajouter une dépense</h2>
+      <form class="card" id="expForm" novalidate>
+        <label for="expAmount">Montant</label>
+        <input class="amount-input" id="expAmount" inputmode="decimal" autocomplete="off" placeholder="0,00 €" required>
+        <div class="row">
+          <div>
+            <label for="expCategory">Catégorie</label>
+            <select id="expCategory"></select>
+          </div>
+          <div>
+            <label for="expDate">Date</label>
+            <input id="expDate" type="date" required>
+          </div>
+        </div>
+        <label for="expLabel">Libellé (facultatif)</label>
+        <input id="expLabel" maxlength="80" autocomplete="off" placeholder="Ex. Carrefour">
+        <button class="btn" type="submit">Ajouter la dépense</button>
+      </form>
+
+      <h2>Ce mois-ci <span class="total" id="expTotal">0,00 €</span></h2>
+      <ul class="list" id="expList"></ul>
+    </section>
+
+    <!-- Fixes -->
+    <section id="view-fixes" class="view" hidden>
+      <h2>Revenus</h2>
+      <ul class="list" id="incomeList"></ul>
+
+      <h2>Dépenses fixes</h2>
+      <ul class="list" id="fixedList"></ul>
+
+      <h2>Ajouter une ligne</h2>
+      <form class="card" id="recForm" novalidate>
+        <label for="recType">Type</label>
+        <select id="recType">
+          <option value="expense">Dépense fixe</option>
+          <option value="income">Revenu</option>
+        </select>
+        <label for="recLabel">Libellé</label>
+        <input id="recLabel" maxlength="80" autocomplete="off" placeholder="Ex. Loyer, salaire, Netflix" required>
+        <div class="row">
+          <div>
+            <label for="recAmount">Montant</label>
+            <input id="recAmount" inputmode="decimal" autocomplete="off" placeholder="0,00 €" required>
+          </div>
+          <div>
+            <label for="recDay">Jour du mois</label>
+            <input id="recDay" type="number" min="1" max="31" inputmode="numeric" placeholder="5" required>
+          </div>
+        </div>
+        <label for="recFreq">Fréquence</label>
+        <select id="recFreq">
+          <option value="monthly">Mensuelle</option>
+          <option value="quarterly">Trimestrielle (lissée sur 3 mois)</option>
+          <option value="yearly">Annuelle (lissée sur 12 mois)</option>
+        </select>
+        <button class="btn" type="submit">Ajouter</button>
+      </form>
+    </section>
+
+    <!-- Réglages -->
+    <section id="view-reglages" class="view" hidden>
+      <h2>Épargne mensuelle</h2>
+      <form class="card" id="savingsForm" novalidate>
+        <label for="savings">Montant mis de côté chaque mois</label>
+        <input id="savings" inputmode="decimal" autocomplete="off" placeholder="0,00 €">
+        <button class="btn" type="submit">Enregistrer</button>
+      </form>
+
+      <h2>Sauvegarde</h2>
+      <div class="card">
+        <p class="muted" id="lastExport"></p>
+        <p class="muted" id="persistStatus"></p>
+        <button class="btn" type="button" id="exportBtn">Télécharger une sauvegarde</button>
+        <label class="btn secondary file-btn">Restaurer une sauvegarde
+          <input type="file" id="importFile" accept="application/json,.json">
+        </label>
+        <button class="btn danger" type="button" id="clearBtn">Tout effacer</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabs" aria-label="Sections">
+    <button type="button" data-view="mois" aria-current="page">Mois</button>
+    <button type="button" data-view="depenses">Dépenses</button>
+    <button type="button" data-view="fixes">Fixes</button>
+    <button type="button" data-view="reglages">Réglages</button>
+  </nav>
+
+  <script src="store.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
