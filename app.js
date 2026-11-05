@@ -107,7 +107,9 @@ function renderHome() {
 
   const elapsedPct = Math.round((c.mi.today / c.mi.daysInMonth) * 100);
   const spentPct =
-    c.variableBudget > 0 ? Math.min(100, Math.round((c.spent / c.variableBudget) * 100)) : c.spent > 0 ? 100 : 0;
+    c.variableBudget > 0
+      ? Math.min(100, Math.max(0, Math.round((c.spent / c.variableBudget) * 100)))
+      : c.spent > 0 ? 100 : 0;
   $('#elapsedPct').textContent = `${elapsedPct} %`;
   $('#spentPct').textContent = `${spentPct} %`;
   $('#elapsedBar').style.width = `${elapsedPct}%`;
@@ -167,7 +169,7 @@ function renderExpenses() {
               <div class="title">${title}</div>
               <div class="sub">${esc(t.category)}, ${esc(dayFmt.format(fromISO(t.date)))}</div>
             </div>
-            <span class="amt">${fmt(t.amount)}</span>
+            <span class="amt${t.amount < 0 ? ' refund' : ''}">${fmt(t.amount)}</span>
             <button class="del" type="button" data-del-tx="${esc(t.id)}" aria-label="Supprimer ${title}">×</button>
           </li>`;
         })
@@ -279,9 +281,10 @@ function bindEvents() {
     const date = $('#expDate').value;
     if (!amount) return alert('Indique un montant supérieur à 0.');
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return alert('Indique une date valide.');
+    const isRefund = $('#expRefund').checked;
     save(() =>
       Store.addTransaction({
-        amount,
+        amount: isRefund ? -amount : amount,
         date,
         label: $('#expLabel').value.trim().slice(0, 80),
         category: $('#expCategory').value,
@@ -289,6 +292,7 @@ function bindEvents() {
     );
     $('#expAmount').value = '';
     $('#expLabel').value = '';
+    $('#expRefund').checked = false;
     $('#expAmount').focus();
   });
 

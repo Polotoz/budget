@@ -47,7 +47,7 @@ const Store = (() => {
 
     if (Array.isArray(raw.transactions)) {
       d.transactions = raw.transactions
-        .filter((t) => t && /^\d{4}-\d{2}-\d{2}$/.test(t.date) && num(t.amount) > 0)
+        .filter((t) => t && /^\d{4}-\d{2}-\d{2}$/.test(t.date) && num(t.amount) !== 0) // négatif = remboursement
         .map((t) => ({
           id: String(t.id || uid()),
           date: t.date,

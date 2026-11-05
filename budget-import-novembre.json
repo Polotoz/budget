@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "recurring": [
+    {
+      "id": "57f68def-d27e-4473-8a0e-f8f7d60bc862",
+      "type": "income",
+      "label": "Solde début de mois",
+      "amount": 2292.64,
+      "freq": "monthly",
+      "day": 1
+    },
+    {
+      "id": "4353dcd8-fa83-48fa-aa9a-31f3434ec0fa",
+      "type": "expense",
+      "label": "Loyer crédit",
+      "amount": 1250,
+      "freq": "monthly",
+      "day": 1
+    },
+    {
+      "id": "af1f5751-9b27-4462-8e81-368f9758a905",
+      "type": "expense",
+      "label": "Canal+",
+      "amount": 40,
+      "freq": "monthly",
+      "day": 1
+    },
+    {
+      "id": "041003db-6971-4d7d-a70e-9ac9a2bf9a08",
+      "type": "expense",
+      "label": "Netflix",
+      "amount": 7.99,
+      "freq": "monthly",
+      "day": 1
+    },
+    {
+      "id": "c99f4578-4a3c-4e20-89ee-e08af6eb3136",
+      "type": "expense",
+      "label": "Banque CB",
+      "amount": 17.28,
+      "freq": "monthly",
+      "day": 1
+    },
+    {
+      "id": "9a6e759c-a84b-4dfc-80be-4bf6c22cf93d",
+      "type": "expense",
+      "label": "Drive",
+      "amount": 1.99,
+      "freq": "monthly",
+      "day": 1
+    },
+    {
+      "id": "bb2c47ba-3997-4801-a780-ae5bc368915a",
+      "type": "expense",
+      "label": "Tel",
+      "amount": 9.99,
+      "freq": "monthly",
+      "day": 1
+    },
+    {
+      "id": "c3ab3617-a947-4462-9980-e9f70b8e6cc7",
+      "type": "expense",
+      "label": "Sécu trésorerie",
+      "amount": 1.35,
+      "freq": "monthly",
+      "day": 1
+    }
+  ],
+  "transactions": [
+    {
+      "id": "33fec908-80e9-4290-8638-a65ea030fc13",
+      "date": "2026-11-05",
+      "label": "Essence",
+      "category": "Transport",
+      "amount": 80
+    },
+    {
+      "id": "b4611429-f872-4988-88f2-8495a4db6036",
+      "date": "2026-11-05",
+      "label": "Trajet mariage",
+      "category": "Transport",
+      "amount": 9
+    },
+    {
+      "id": "1505cb43-30b0-4833-abf7-87f92e5c527f",
+      "date": "2026-11-05",
+      "label": "Cadeau",
+      "category": "Autre",
+      "amount": 37.9
+    },
+    {
+      "id": "0f40aae9-a330-4492-a101-211c7e19e46e",
+      "date": "2026-11-05",
+      "label": "Péage",
+      "category": "Transport",
+      "amount": 20
+    },
+    {
+      "id": "b2f0686e-b806-46ad-8bf1-2b9a1794b42c",
+      "date": "2026-11-05",
+      "label": "Mariage",
+      "category": "Autre",
+      "amount": 70
+    },
+    {
+      "id": "0279e85c-c899-4f25-8788-9f36a34275ce",
+      "date": "2026-11-05",
+      "label": "Coiffeur",
+      "category": "Autre",
+      "amount": 30
+    },
+    {
+      "id": "315a09c3-f933-4174-a638-7aea052b2e42",
+      "date": "2026-11-05",
+      "label": "Pharmacie",
+      "category": "Santé",
+      "amount": 13
+    },
+    {
+      "id": "58a9ae5a-4c2d-42b2-af47-86eac20b04a4",
+      "date": "2026-11-05",
+      "label": "Gîte",
+      "category": "Loisirs",
+      "amount": 20
+    },
+    {
+      "id": "ed7cb71a-a210-47a4-8213-a74bd20722fc",
+      "date": "2026-11-05",
+      "label": "Resto mariage",
+      "category": "Restaurant",
+      "amount": 30
+    },
+    {
+      "id": "20f62df8-2b37-49ed-9c83-9873c944f223",
+      "date": "2026-11-05",
+      "label": "Loto",
+      "category": "Loisirs",
+      "amount": 4.7
+    },
+    {
+      "id": "adaa4ddb-b32a-48fc-9395-7082969237f4",
+      "date": "2026-11-05",
+      "label": "Remboursement costume",
+      "category": "Autre",
+      "amount": -129
+    },
+    {
+      "id": "9817580b-4e18-4195-b853-3a00535536e8",
+      "date": "2026-11-05",
+      "label": "Feu Vert",
+      "category": "Transport",
+      "amount": 95
+    },
+    {
+      "id": "fda8f3a8-6447-43a8-983d-47137780a8b9",
+      "date": "2026-11-05",
+      "label": "Resto",
+      "category": "Restaurant",
+      "amount": 104
+    },
+    {
+      "id": "b039ccae-9f7e-493d-b456-e7836fad8637",
+      "date": "2026-11-05",
+      "label": "Petit Vapoteur",
+      "category": "Autre",
+      "amount": 9
+    },
+    {
+      "id": "bc88c8eb-35ce-4a43-9cec-7527dd15426b",
+      "date": "2026-11-05",
+      "label": "Pharmacie",
+      "category": "Santé",
+      "amount": 5
+    },
+    {
+      "id": "82a4326d-ffc1-45d7-a6dd-234be4de8411",
+      "date": "2026-11-05",
+      "label": "Carrefour",
+      "category": "Courses",
+      "amount": 29
+    },
+    {
+      "id": "0328823a-ad23-4ed0-984b-3e49193da13e",
+      "date": "2026-11-05",
+      "label": "Livre",
+      "category": "Loisirs",
+      "amount": 9
+    }
+  ],
+  "settings": {
+    "savings": 0,
+    "lastExport": null
+  }
+}

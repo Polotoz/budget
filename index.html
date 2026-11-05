@@ -99,6 +99,9 @@
     .list .title { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .list .sub { color: var(--muted); font-size: .85rem; }
     .list .amt { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .list .amt.refund { color: var(--ok); }
+    .check { display: flex; align-items: center; gap: .5rem; margin-top: .9rem; color: var(--ink); }
+    .check input { width: 1.2rem; height: 1.2rem; accent-color: var(--ink); }
     .list .empty { color: var(--muted); display: block; }
     .del { border: 0; background: transparent; color: var(--muted); font-size: 1.4rem; line-height: 1; padding: .3rem .55rem; border-radius: 8px; }
 
@@ -176,6 +179,7 @@
         </div>
         <label for="expLabel">Libellé (facultatif)</label>
         <input id="expLabel" maxlength="80" autocomplete="off" placeholder="Ex. Carrefour">
+        <label class="check"><input type="checkbox" id="expRefund"> C’est un remboursement (argent qui revient)</label>
         <button class="btn" type="submit">Ajouter la dépense</button>
       </form>
 
